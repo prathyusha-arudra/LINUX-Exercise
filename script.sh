@@ -32,28 +32,28 @@ for i in {0..23}
 do
 	
 	
-	bids=$(cat $2 | awk '/bids/{f=1;next} /impression/{f=0} f' | awk '($1 >= $((hours+(i*60))) && $1 < $((hours+((i+1)*60)-1))) {sum += $2} END {print sum}')
+	bids=$(cat $2 | awk '/bids/{f=1;next} /impression/{f=0} f' | awk '{if($1 >= $((hours+(i*60))) && $1 < $((hours+((i+1)*60)-1))) {sum += $2}} END {print sum}')
 
 	# Handles empty fields
 	if [ ! -n "$bids" ] ; then
   		bids=0
 	fi ;
 
-	impressions=$(cat $2 | awk '/impression/{f=1;next} /wins/{f=0} f' | awk '($1 >= $((hours+(i*60))) && $1 < $((hours+((i+1)*60)-1))) {sum += $2} END {print sum}')
+	impressions=$(cat $2 | awk '/impression/{f=1;next} /wins/{f=0} f' | awk '{if($1 >= $((hours+(i*60))) && $1 < $((hours+((i+1)*60)-1))) {sum += $2}} END {print sum}')
 
 	# Handles empty fields
 	if [ ! -n "$impressions" ] ; then
   		impressions=0
 	fi ;
 
-	wins=$(cat $2 | awk '/wins/{f=1;next} /click/{f=0} f' | awk '($1 >= $((hours+(i*60))) && $1 < $((hours+((i+1)*60)-1))) {sum += $2} END {print sum}')
+	wins=$(cat $2 | awk '/wins/{f=1;next} /click/{f=0} f' | awk '{if($1 >= $((hours+(i*60))) && $1 < $((hours+((i+1)*60)-1))) {sum += $2}} END {print sum}')
 
 	# Handles empty fields
 	if [ ! -n "$wins" ] ; then
   		wins=0
 	fi ;
 
-	clicks=$(cat $2 | awk '/click/{f=1;next}  f' | awk '($1 >= $((hours+(i*60))) && $1 < $((hours+((i+1)*60)-1))) {sum += $2} END {print sum}')
+	clicks=$(cat $2 | awk '/click/{f=1;next}  f' | awk '{if($1 >= $((hours+(i*60))) && $1 < $((hours+((i+1)*60)-1))) {sum += $2}} END {print sum}')
 
 	# Handles empty fields
 	if [ ! -n "$clicks" ] ; then
